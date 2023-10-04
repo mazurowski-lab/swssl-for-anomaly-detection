@@ -9,9 +9,9 @@ import json
 from sklearn.neighbors import KernelDensity
 import time
 
-
-def evaluate_image(args, model, train_loader, test_loader, device, save=-1, load=0, category='dbt'):
+def evaluate_image(args, model, train_loader, test_loader, device, category='dbt'):
     model.eval()
+
     # Extract Normal Image Features
     embedding_list = []
     patch_size = args.patch_size
@@ -41,7 +41,6 @@ def evaluate_image(args, model, train_loader, test_loader, device, save=-1, load
                         single_patch_embeddings = feature
                     else:
                         single_patch_embeddings = torch.cat([single_patch_embeddings, feature], dim=-1)
-            #_, single_patch_embeddings = model(img)
 
             batch_size = single_patch_embeddings.shape[0]
             hidden_size = single_patch_embeddings.shape[1]
@@ -54,7 +53,6 @@ def evaluate_image(args, model, train_loader, test_loader, device, save=-1, load
 
             if idx % 10 == 0:
                 print('load feature %s/%s, instance time %s' % (str(idx), str(len(train_loader)), str(time.time() - curr)))
-
     print('patch embedding size :', patch_embeddings.shape)
     _, patch_dim, patch_num = patch_embeddings.shape
 
@@ -92,7 +90,6 @@ def evaluate_image(args, model, train_loader, test_loader, device, save=-1, load
             
             # Compute distance
             dis_all = np.linalg.norm(patch_embeddings - embedding_tests, axis=-1)
-            
             score_patches = np.min(dis_all, axis=0)
             image_score = max(score_patches)
 
@@ -101,19 +98,17 @@ def evaluate_image(args, model, train_loader, test_loader, device, save=-1, load
             score_patch_list.append(score_patches.tolist())
 
             if idx % 50 == 0:
-                print('evaluate %s/%s, instance time %s' % (str(idx), str(len(loader)), str(time.time() - curr)))
+                print('evaluate %s/%s, instance time %s' % (str(idx), str(len(test_loader)), str(time.time() - curr)))
             
         pred_img_np = np.array(pred_list_img_lvl)
         gt_img_np = np.array(gt_list_img_lvl)
         img_auc = roc_auc_score(gt_img_np, pred_img_np)
-        print("Image-level auc-roc score : %f" %  img_auc)
+        print("image-level auc-roc score : %f" % img_auc)
 
-        file_name = 'result/performance_%s_%s.json' % (category, str(img_auc))
+        file_name = 'results/performance_%s_%s.json' % (category, str(img_auc))
         with open(file_name, 'w+') as f:
             gt_list_int = [int(i) for i in gt_list_img_lvl]
-            json.dump([gt_list_int], f)
-            json.dump([pred_list_img_lvl], f)
-            json.dump([score_patch_list], f)
+            json.dump([gt_list_int, pred_list_img_lvl, score_patch_list], f)
 
     model.train()
     return img_auc

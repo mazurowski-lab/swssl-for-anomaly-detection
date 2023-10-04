@@ -96,18 +96,28 @@ class Invertion(object):
 class Transform:
     def __init__(self):
         self.transform = transforms.Compose([
+            transforms.RandomResizedCrop(128, scale=(0.4, 1.)),
             transforms.RandomApply(
                     [transforms.ColorJitter(brightness=0.4, contrast=0.4,
                                         saturation=0, hue=0)],
                                 p=0.8),
-            GaussianBlur(p=1.0),
-            Solarization(p=0.0),
+            # Chest
+            GaussianBlur(p=0.1),
+            Solarization(p=0.2),
+            # DBT
+            #GaussianBlur(p=1.0),
+            #Solarization(p=0.0),
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                 std=[0.229, 0.224, 0.225])
+            # DBT
+            #transforms.Normalize(mean=[0.485, 0.456, 0.406],
+            #                     std=[0.229, 0.224, 0.225])
+            # Chest
+            transforms.Normalize(mean=[0.5, 0.5, 0.5],
+                                 std=[0.5, 0.5, 0.5])
         ])
 
         self.transform_prime = transforms.Compose([
+            transforms.RandomResizedCrop(128, scale=(0.4, 1.)),
             transforms.RandomApply(
                     [transforms.ColorJitter(brightness=0.4, contrast=0.4,
                                         saturation=0, hue=0)],
@@ -115,12 +125,16 @@ class Transform:
             GaussianBlur(p=0.1),
             Solarization(p=0.2),
             transforms.ToTensor(),
-            transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                 std=[0.229, 0.224, 0.225])
+            # DBT
+            #transforms.Normalize(mean=[0.485, 0.456, 0.406],
+            #                     std=[0.229, 0.224, 0.225])
+            # Chest
+            transforms.Normalize(mean=[0.5, 0.5, 0.5],
+                                 std=[0.5, 0.5, 0.5])
         ])
+
 
     def __call__(self, x):
         y1 = self.transform(x)
         y2 = self.transform_prime(x)
-
         return y1, y2

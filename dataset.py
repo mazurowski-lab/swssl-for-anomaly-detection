@@ -80,7 +80,7 @@ class DBTDataset(Dataset):
             # Apply self-supervised learning augmentation
             img_11, _ = self.ss_transform(img_patch)
             img_12, _ = self.ss_transform(edg_patch)
-            
+
             # Find neighbor image of patch
             while 1:
                 x_start2, y_start2 = random.randint(0, x_length), random.randint(0, y_length)
@@ -101,7 +101,6 @@ class DBTDataset(Dataset):
                         sim = (sim_x + sim_y)
 
                         break
-
             # Neighbor image is applied same augmentation
             img_21 = self.to_im(img_patch)
             
@@ -109,6 +108,7 @@ class DBTDataset(Dataset):
             # img_12: patch with 2nd augmentation
             # img_21: neighbor of img_1* patch with 1st augmentation
             return img_11, img_12, img_21, sim
+
 
 class ChestDataset(Dataset):
     def __init__(self, root, pre_transform, phase, \
@@ -173,6 +173,8 @@ class ChestDataset(Dataset):
                 if max_pixel > 0:
                     edg_patch = edg.crop((x_s,y_s,x_s+self.patch_size,y_s+self.patch_size))
                     break
+
+            # Apply self-supervised learning augmentation
             img_11, _ = self.ss_transform(img_patch)
             img_12, _ = self.ss_transform(edg_patch)
 
@@ -194,8 +196,8 @@ class ChestDataset(Dataset):
                         sim_x = 0 if dis_x == 3 else 0.5 / (dis_x + 1)
                         sim_y = 0 if dis_y == 3 else 0.5 / (dis_y + 1)
                         sim = (sim_x + sim_y)
-                        break
 
+                        break
             # Neighbor image is applied same augmentation
             img_21 = self.to_im(img_patch)
             

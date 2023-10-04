@@ -1,6 +1,6 @@
 # SWSSL - Sliding window-based self-supervised learning for anomaly detection in high-resolution images  (IEEE Trans. on Medical Imaging 2023)
 
-#### By Haoyu Dong, [Nicholas Konz](https://nickk124.github.io/), Yifan Zhang, Hanxue Gu, Yixin Zhang, and [Maciej Mazurowski](https://sites.duke.edu/mazurowski/).
+#### By Haoyu Dong, Yifan Zhang, Hanxue Gu, [Nicholas Konz](https://nickk124.github.io/), Yixin Zhang, and [Maciej Mazurowski](https://sites.duke.edu/mazurowski/).
 
 [Paper Link here](https://ieeexplore.ieee.org/abstract/document/10247020)
 

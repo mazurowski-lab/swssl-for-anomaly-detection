@@ -96,7 +96,6 @@ class Invertion(object):
 class Transform:
     def __init__(self):
         self.transform = transforms.Compose([
-            transforms.RandomResizedCrop(128, scale=(0.4, 1.)),
             transforms.RandomApply(
                     [transforms.ColorJitter(brightness=0.4, contrast=0.4,
                                         saturation=0, hue=0)],
@@ -117,7 +116,6 @@ class Transform:
         ])
 
         self.transform_prime = transforms.Compose([
-            transforms.RandomResizedCrop(128, scale=(0.4, 1.)),
             transforms.RandomApply(
                     [transforms.ColorJitter(brightness=0.4, contrast=0.4,
                                         saturation=0, hue=0)],

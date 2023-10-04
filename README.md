@@ -11,9 +11,9 @@ This is the official repository for our image anomaly detection model **SWSSL** 
 
 You can obtain the Chest XRay dataset from [here](https://data.mendeley.com/datasets/rscbjbr9sj/2), and the DBT dataset from [here](https://wiki.cancerimagingarchive.net/pages/viewpage.action?pageId=64685580). We are also happy to provide pre-processed data upon request.
 
-### Step 1: Model Running 
+### Step 1: Model Running:
 
-You can run "bash run_chest.sh" to obtain the performance reported in the paper. Running on the DBT dataset is very similar, but you need to change some hyperparameters as described in the paper.
+You can run "bash run_chest.sh" to obtain the performance reported in the paper. Running on the DBT dataset is very similar, but you need to change some hyperparameters as described in the paper. 
 
 ## Citation
 
